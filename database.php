@@ -9,7 +9,7 @@
 
         private $dblink; // tu smestam objekat mysqli
         private $result; // resultSet u Javi? pa se obradjuje rs.next
-        private $records; // broj vracenih redova
+        public $records; // broj vracenih redova
         private $affected; // broj affected redova
 
         // konstruktor
@@ -39,6 +39,10 @@
             $this->dblink->rollback();
         }
 
+        function Disconnect() {
+            mysqli_close($this->dblink);
+        }
+
 
         // izvrsava upit i vraca records i affected rows ako prodje
 
@@ -66,10 +70,10 @@
         // CRUD
         
 
-        // where i order by stavljam na null default da bih prosledjivao samo ako mi zatreba
+        // where i order by i join parametre stavljam na null default da bih prosledjivao samo ako mi zatreba
         // join parametri nek se nadju za svaki slucaj
 
-        function select($table,$rows,$join_table,$join_key1,$join_key2, $where=null, $order=null){
+        function select($table,$rows,$join_table=null,$join_key1=null,$join_key2=null, $where=null, $order=null){
             // default select
             $upit = 'SELECT '.$rows.' FROM '.$table;
             // ako imam join
@@ -87,20 +91,22 @@
             }
             // this se ovde odnosi ja mislim na objekat klase kao u javi, nisu one zajebancije kao u javascript sa this
             // poziva metodu ExecuteQuery da procesuira upit
-
-            echo($upit);
+            
+            // ispisujem upit u konzoli, dobra praksa
+            echo '<script>console.log("'.$upit.'"); </script>'; // kolko mrzim php
             $this->ExecuteQuery($upit);
+            
         }
 
         function insert($table,$rows, $values){
             $query_values = implode(',',$values);
-            $q ='INSERT INTO '.$table;
+            $upit ='INSERT INTO '.$table;
             if($rows!=null){
-                $q.='('.$rows.')';
+                $upit.='('.$rows.')';
             }
-            $q.=" VALUES($query_values)";
-            // echo($q);
-            if($this->ExecuteQuery($q)){
+            $upit.=" VALUES($query_values)";
+            echo '<script>console.log("'.$upit.'"); </script>'; 
+            if($this->ExecuteQuery($upit)){
                 return true;
             }else{
                 return false;
@@ -113,8 +119,9 @@
                 $set_query[] = "$keys[$i] = $values[$i]";
             }
             $query_values = implode(",", $set_query);  
-            $q = "UPDATE $table SET $query_values WHERE id=$id";
-            if($this->ExecuteQuery($q) && $this->affected>0){
+            $upit = "UPDATE $table SET $query_values WHERE id=$id";
+            echo '<script>console.log("'.$upit.'"); </script>'; 
+            if($this->ExecuteQuery($upit) && $this->affected>0){
                 return true;
             }else{
                 return false;
@@ -122,9 +129,9 @@
         }
     
         function delete($table, $id, $id_value){
-            $q = "DELETE FROM $table WHERE $table.$id=$id_value";
-            // echo $q;
-            if($this->ExecuteQuery($q)){
+            $upit = "DELETE FROM $table WHERE $table.$id=$id_value";
+            echo '<script>console.log("'.$upit.'"); </script>'; 
+            if($this->ExecuteQuery($upit)){
                 return true;
             }else{
                 return false;
