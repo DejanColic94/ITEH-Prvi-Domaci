@@ -18,14 +18,31 @@
         <br />
 
         <h3 align="center"> Booktracker</a></h3><br />
+        <h5 align="center"> ITEH prvi domaci</a></h3><br />
         <br />
         <div align="right" style="margin-bottom:5px;">
-
+                <button type="button" name="add" id="add" class="btn btn-success btn-xs">Dodaj Autora</button>
         </div>
         <div id="user_data" class="table-responsive">
 
         </div>
         <br />
+    </div>
+
+    <!-- dodaj autora dialog -->
+    <div id="user_dialog" title="Add Data">
+        <form method="post" id="user_form">
+            <div class="form-group">
+                <label>Unesite ime autora:</label>
+                <input type="text" name="ime_autora" id="ime_autora" class="form-control" />
+                <span id="error_ime_autora" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="action" id="action" value="insert" />
+                <input type="hidden" name="hidden_id" id="hidden_id" />
+                <input type="submit" name="form_action" id="form_action" class="btn btn-info" value="Insert" />
+            </div>
+        </form>
     </div>
 </body>
 </html>
@@ -54,6 +71,22 @@ $(document).ready(function() {
 
         
     }
+
+// dialog za dodavanje novog autora
+$('#user_dialog').dialog({
+    autoOpen : false,
+    width:400
+});
+// na click postavlja vrednosti hidden elemenata
+$('#add').click(function(){
+    $('#user_dialog').attr('title', 'Add Data');
+    $('#action').val('insert');
+    $('#form_action').val("Insert");
+
+    //otvara dijalog
+    $('#user_dialog').dialog('open');
+});
+
 });
 
 
