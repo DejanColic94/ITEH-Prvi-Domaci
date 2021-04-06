@@ -21,7 +21,7 @@
         <h5 align="center"> ITEH prvi domaci</a></h3><br />
         <br />
         <div align="right" style="margin-bottom:5px;">
-                <button type="button" name="add" id="add" class="btn btn-success btn-xs">Dodaj Autora</button>
+                <button type="button" name="add" id="add" class="btn btn-success">Dodaj Autora</button>
         </div>
         <div id="user_data" class="table-responsive">
 
@@ -30,7 +30,7 @@
     </div>
 
     <!-- dodaj autora dialog -->
-    <div id="user_dialog" title="Add Data">
+    <div id="user_dialog" title="Unos Autora">
         <form method="post" id="user_form">
             <div class="form-group">
                 <label>Unesite ime autora:</label>
@@ -43,6 +43,10 @@
                 <input type="submit" name="form_action" id="form_action" class="btn btn-info" value="Insert" />
             </div>
         </form>
+    </div>
+    <!-- success poruka -->
+    <div id="action_alert" title="Uspeh!">
+
     </div>
 </body>
 </html>
@@ -87,8 +91,57 @@ $('#add').click(function(){
     $('#user_dialog').dialog('open');
 });
 
+// on click
+$('#user_form').on('submit', function(event){
+    event.preventDefault();
+    var error_imeAutora = '';
+
+    if($('#ime_autora').val() == '') {
+        
+        error_imeAutora = 'Morate uneti ime autora';
+        $('#error_ime_autora').text(error_imeAutora);
+        $('#ime_autora').css('border-color', '#cc0000');
+    }else {
+        
+        error_imeAutora = '';
+        $('#error_ime_autora').text(error_imeAutora);
+        $('#ime_autora').css('border-color', '');
+
+    }
+    // ako se nije javila greska, tj, ako je sve u redu
+    if(error_imeAutora !== '') {
+        return false;
+    }else {
+        
+        //$('#form_action').attr('disabled', 'disabled');
+        // serijalizacija
+        var form_data = $(this).serialize();
+        // sad ajax zahtev
+        $.ajax({
+            url:"operacije.php",
+            method:"POST",
+            data:form_data,
+            success:function(data) {
+                // dijalog nestaje
+                
+                $('#user_dialog').dialog('close');
+                $('#action_alert').html(data);
+                $('#action_alert').dialog('open');
+                // refreshujem podatke
+                load_data();
+            }
+            
+        }
+
+        )
+    }
 });
 
+$('#action_alert').dialog({
+    autoOpen:false
 
 
+});
+
+});
 </script>

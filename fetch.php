@@ -24,10 +24,10 @@
                     <td>'.$row["autorID"].'</td>
                     <td>'.$row["imeAutora"].'</td>
                     <td>
-                        <button type="button" name="edit" class="btn btn-primary btn-xs edit" id="'.$row["autorID"].'">Izmeni</button>
+                        <button type="button" name="edit" class="btn btn-primary btn-sm edit" id="'.$row["autorID"].'">Izmeni</button>
                     </td>
                     <td>
-                        <button type="button" name="delete" class="btn btn-danger btn-xs delete" id="'.$row["autorID"].'">Obrisi</button>
+                        <button type="button" name="delete" class="btn btn-danger btn-sm delete" id="'.$row["autorID"].'">Obrisi</button>
                     </td>    
                 <tr>    
             ';
