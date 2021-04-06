@@ -9,7 +9,7 @@
 
         private $dblink; // tu smestam objekat mysqli
         private $result; // resultSet u Javi? pa se obradjuje rs.next
-        public $records; // broj vracenih redova
+        private $records; // broj vracenih redova
         private $affected; // broj affected redova
 
         // konstruktor
@@ -67,6 +67,10 @@
             return $this->result;
         }
 
+        function getRecords(){
+            return $this->records;
+        }
+
         // CRUD
         
 
@@ -93,7 +97,7 @@
             // poziva metodu ExecuteQuery da procesuira upit
             
             // ispisujem upit u konzoli, dobra praksa
-            echo '<script>console.log("'.$upit.'"); </script>'; // kolko mrzim php
+            echo '<script>console.log("'.$upit.'"); </script>'; 
             $this->ExecuteQuery($upit);
             
         }
