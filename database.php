@@ -97,7 +97,7 @@
             // poziva metodu ExecuteQuery da procesuira upit
             
             // ispisujem upit u konzoli, dobra praksa
-            echo '<script>console.log("'.$upit.'"); </script>'; 
+           // echo '<script>console.log("'.$upit.'"); </script>'; 
             $this->ExecuteQuery($upit);
             
         }
@@ -109,7 +109,7 @@
                 $upit.='('.$rows.')';
             }
             $upit.=" VALUES($query_values)";
-            echo '<script>console.log("'.$upit.'"); </script>'; 
+           // echo '<script>console.log("'.$upit.'"); </script>'; 
             if($this->ExecuteQuery($upit)){
                 return true;
             }else{
@@ -117,14 +117,14 @@
             }
         }
         function update($table, $id, $keys,$values){
-            $query_values ="";
-            $set_query = array();
-            for($i =0; $i<sizeof($keys); $i++){
-                $set_query[] = "$keys[$i] = $values[$i]";
-            }
-            $query_values = implode(",", $set_query);  
-            $upit = "UPDATE $table SET $query_values WHERE id=$id";
-            echo '<script>console.log("'.$upit.'"); </script>'; 
+            //$query_values ="";
+           // $set_query = array();
+           // for($i =0; $i<sizeof($keys); $i++){
+              //  $set_query[] = "$keys[$i] = $values[$i]";
+           // }
+           // $query_values = implode(",", $set_query);  
+            $upit = "UPDATE $table SET $keys = '$values' WHERE $id";
+           // echo '<script>console.log("'.$upit.'"); </script>'; 
             if($this->ExecuteQuery($upit) && $this->affected>0){
                 return true;
             }else{
@@ -133,8 +133,8 @@
         }
     
         function delete($table, $id, $id_value){
-            $upit = "DELETE FROM $table WHERE $table.$id=$id_value";
-            echo '<script>console.log("'.$upit.'"); </script>'; 
+            $upit = "DELETE FROM $table WHERE $id=$id_value";
+           // echo '<script>console.log("'.$upit.'"); </script>'; 
             if($this->ExecuteQuery($upit)){
                 return true;
             }else{

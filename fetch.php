@@ -10,7 +10,6 @@
     $output = '
     <table class="table table-striped table-bordered">
         <tr>
-            <th>ID Autora</th>
             <th>Ime Autora</th>
             <th>Izmeni</th>
             <th>Obrisi</th>
@@ -21,7 +20,6 @@
         foreach($resultSet as $row){
             $output .= '
                 <tr>
-                    <td>'.$row["autorID"].'</td>
                     <td>'.$row["imeAutora"].'</td>
                     <td>
                         <button type="button" name="edit" class="btn btn-primary btn-sm edit" id="'.$row["autorID"].'">Izmeni</button>

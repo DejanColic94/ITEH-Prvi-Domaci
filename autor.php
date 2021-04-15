@@ -12,6 +12,22 @@
 	<script src="jquery-ui.js"></script>
 
     <title>Autori</title>
+
+
+<!-- quick fix -->
+<style>
+body {
+  background-color: #faf5f9;
+}
+
+
+</style>
+
+
+
+
+
+
 </head>
 <body>
     <div class="container">
@@ -40,13 +56,17 @@
             <div class="form-group">
                 <input type="hidden" name="action" id="action" value="insert" />
                 <input type="hidden" name="hidden_id" id="hidden_id" />
-                <input type="submit" name="form_action" id="form_action" class="btn btn-info" value="Insert" />
+                <input type="submit" name="form_action" id="form_action" class="btn btn-info" value="Ubaci" />
             </div>
         </form>
     </div>
     <!-- success poruka -->
     <div id="action_alert" title="Uspeh!">
 
+    </div>
+
+    <div id="delete_confirmation" title="Confirmation">
+        <p>Da li ste sigurni da želite da obrišete?</p>
     </div>
 </body>
 </html>
@@ -57,7 +77,7 @@
 <script>
 // jquery funkcija koja proverava da li se strana ucitala
 // da ne bi radila na nekompletiranoj strani
-// logika se izvrsava unutar anonimne f-je 
+ 
 $(document).ready(function() {
 
     load_data();
@@ -83,9 +103,9 @@ $('#user_dialog').dialog({
 });
 // na click postavlja vrednosti hidden elemenata
 $('#add').click(function(){
-    $('#user_dialog').attr('title', 'Add Data');
-    $('#action').val('insert');
-    $('#form_action').val("Insert");
+    $('#user_dialog').attr('title', 'Ubaci');
+    $('#action').val('insert'); // ovde mu kazem da li insert, update ili delete
+    $('#form_action').val("Ubaci");
 
     //otvara dijalog
     $('#user_dialog').dialog('open');
@@ -139,9 +159,73 @@ $('#user_form').on('submit', function(event){
 
 $('#action_alert').dialog({
     autoOpen:false
-
-
 });
+
+// --------update -----------
+$(document).on('click', '.edit', function() {
+    
+    var id = $(this).attr("id");
+    var action = 'fetch_single';
+    // ajax da izvuce odabranog autora
+    $.ajax({
+        url:"operacije.php",
+        method:"POST",
+        data:{id:id, action:action},
+        dataType:"json",
+        success:function(data) {
+            $('#ime_autora').val(data.ime_autora);
+            $('#user_dialog').attr('title', 'Izmeni');
+            $('#action').val('update');
+            $('#hidden_id').val(id);
+            $('#form_action').val('Izmeni');
+            $('#user_dialog').dialog('open');
+        },
+        error:function(e) {
+            console.log('greska u ajaxu');
+            
+        }
+        
+        
+
+    })
+});
+
+
+    // DELETE
+    $('#delete_confirmation').dialog({
+        autoOpen: false,
+        modal : true,
+        buttons:{
+            Ok:function() {
+                var id = $(this).data('id');
+                var action = 'delete';
+                
+                $.ajax({
+                    url:"operacije.php",
+                    method:"POST",
+                    data:{id:id, action:action},
+                    success:function(data) {
+                        $('#delete_confirmation').dialog('close');
+                        $('#action_alert').html(data);
+                        $('#action_alert').dialog('open');
+                        load_data();
+                    }
+                })
+            },
+            Odustani: function() {
+                $(this).dialog('close');
+            }
+        }
+    })
+
+
+    $(document).on('click', '.delete', function() {
+    
+        var id = $(this).attr("id");
+        $('#delete_confirmation').data('id',id).dialog('open');
+        
+        
+    });
 
 });
 </script>
