@@ -16,9 +16,9 @@
 
 <form class="box" action="" method="POST">
   <h1>Log In</h1>
-  <input type="text" id="username" name="username" placeholder="Enter Username">
-  <input type="password" id="password" name="password" placeholder="Enter Password">
-  <input type="submit"  name="submit" value="Log In">
+  <input type="text" id="username" name="username" placeholder="Unesite Username">
+  <input type="password" id="password" name="password" placeholder="Unesite Password">
+  <input type="submit"  name="submit" value="Uloguj se">
   <span > <?php echo $errorMessage; ?> </span>
 </form>
 

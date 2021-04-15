@@ -8,9 +8,9 @@
 
     if(isset($_POST['submit'])) {
         if(empty($_POST['username'])) {
-            $errorMessage = "Username cannot be empty!";
+            $errorMessage = "Morate uneti username!";
         }else if(empty($_POST['password'])) {
-            $errorMessage = "Password cannot be empty!";
+            $errorMessage = "Morate uneti password!";
         }else {
             // izvlacim username i password iz POST superglobalne
             $username = $_POST['username'];
@@ -25,7 +25,7 @@
                header("Location: autor.php");
                 $db->Commit();
             }else {
-                $errorMessage = "Username or Password is invalid!";
+                $errorMessage = "Username ili Password su neispravni!";
                 $db->Rollback();
             }
 
