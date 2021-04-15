@@ -5,14 +5,19 @@ $db = new Database('booktracker');
 if(isset($_POST["action"])) {
     $naziv =["imeAutora"=> "'".$_POST["ime_autora"]."'"];
     if($_POST["action"] == "insert") {
-       if( $db->insert("autor","imeAutora",$naziv)) {
-        echo '<p>Uspesno ubaceno!</p>';
-        $db->Commit();
-       }else{
-           echo '<p>Ne moze</p>';
-           $db->Rollback();
+       try{
+            $db->insert("autor","imeAutora",$naziv);
+            echo '<p>Uspešno ubačeno!</p>';
+            $db->Commit();
+       }catch(Exception $e) {
+            echo '<p>Ne može</p>';
+            $e->getMessage();
+            $db->Rollback();
+       }finally{
+           $db->Disconnect();
        }
-        // planirao sam try - catch - finally pa da imam i disconnect ali ajde sad   
+       
+        
        
     }
 }
