@@ -1,8 +1,8 @@
 <?php
-    include "database.php";
+    include "../database.php";
     $db = new Database('booktracker');
 
-    $db->select("autor","*");
+    $db->select("knjiga","*");
 
     $resultSet = $db->getResult();
     $total_row = $db->getRecords();
@@ -10,7 +10,7 @@
     $output = '
     <table class="table table-striped table-bordered">
         <tr>
-            <th>Ime Autora</th>
+            <th>Naziv</th>
             <th>Izmeni</th>
             <th>Obrisi</th>
         </tr>    
@@ -20,12 +20,12 @@
         foreach($resultSet as $row){
             $output .= '
                 <tr>
-                    <td>'.$row["imeAutora"].'</td>
+                    <td>'.$row["naziv"].'</td>
                     <td>
-                        <button type="button" name="edit" class="btn btn-primary btn-sm edit" id="'.$row["autorID"].'">Izmeni</button>
+                        <button type="button" name="edit" class="btn btn-primary btn-sm edit" id="'.$row["knjigaID"].'">Izmeni</button>
                     </td>
                     <td>
-                        <button type="button" name="delete" class="btn btn-danger btn-sm delete" id="'.$row["autorID"].'">Obrisi</button>
+                        <button type="button" name="delete" class="btn btn-danger btn-sm delete" id="'.$row["knjigaID"].'">Obrisi</button>
                     </td>    
                 <tr>    
             ';

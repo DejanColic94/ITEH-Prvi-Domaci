@@ -1,6 +1,6 @@
 <?php
     
-    include "database.php";
+    include "../database.php";
     $db = new Database('booktracker');
 
 
@@ -22,7 +22,7 @@
             if($rows == 1) {
                  
                // header("Location: knjiga.php");
-               header("Location: autor.php");
+               header("Location: ../autor/autor.php");
                 $db->Commit();
             }else {
                 $errorMessage = "Username ili Password su neispravni!";

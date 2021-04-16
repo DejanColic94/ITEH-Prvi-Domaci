@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,12 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- biblioteke , jquery i bootstrap -->
-    <link rel="stylesheet" href="jquery-ui.css">
-    <link rel="stylesheet" href="bootstrap.min.css" />
-	<script src="jquery.min.js"></script>  
-	<script src="jquery-ui.js"></script>
+    <link rel="stylesheet" href="../jquery-ui.css">
+    <link rel="stylesheet" href="../bootstrap.min.css" />
+	<script src="../jquery.min.js"></script>  
+	<script src="../jquery-ui.js"></script>
 
-    <title>Autori</title>
+    <title>Knjige</title>
+
+    <link rel="icon" href="../logo.ico" type="image/x-icon">
 
 
 <!-- quick fix -->
@@ -37,7 +40,7 @@ body {
         <h5 align="center"> ITEH prvi domaci</a></h3><br />
         <br />
         <div align="right" style="margin-bottom:5px;">
-                <button type="button" name="add" id="add" class="btn btn-success">Dodaj Autora</button>
+                <button type="button" name="add" id="add" class="btn btn-success">Dodaj Knjigu</button>
         </div>
         <div id="user_data" class="table-responsive">
 
@@ -45,13 +48,13 @@ body {
         <br />
     </div>
 
-    <!-- dodaj autora dialog -->
-    <div id="user_dialog" title="Unos Autora">
+    <!-- dodaj knjigu dialog -->
+    <div id="user_dialog" title="Unos Knjige">
         <form method="post" id="user_form">
             <div class="form-group">
-                <label>Unesite ime autora:</label>
-                <input type="text" name="ime_autora" id="ime_autora" class="form-control" />
-                <span id="error_ime_autora" class="text-danger"></span>
+                <label>Unesite naziv knjige:</label>
+                <input type="text" name="ime_knjige" id="ime_knjige" class="form-control" />
+                <span id="error_ime_knjige" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="hidden" name="action" id="action" value="insert" />
@@ -86,7 +89,7 @@ $(document).ready(function() {
     function load_data() {
         // koristimo ajax da bi se load izvrsavao asihrono
         $.ajax({
-            url:"fetch.php", // fajl gde saljemo na obradu
+            url:"fetch_knjiga.php", // fajl gde saljemo na obradu
             method:"POST",   // http metoda
             success:function(data) {  // logika
                 $('#user_data').html(data);
@@ -114,22 +117,22 @@ $('#add').click(function(){
 // on click
 $('#user_form').on('submit', function(event){
     event.preventDefault();
-    var error_imeAutora = '';
+    var error_naziv = '';
 
-    if($('#ime_autora').val() == '') {
+    if($('#ime_knjige').val() == '') {
         
-        error_imeAutora = 'Morate uneti ime autora';
-        $('#error_ime_autora').text(error_imeAutora);
-        $('#ime_autora').css('border-color', '#cc0000');
+        error_naziv = 'Morate uneti naziv knjige';
+        $('#error_ime_knjige').text(error_naziv);
+        $('#ime_knjige').css('border-color', '#cc0000');
     }else {
         
-        error_imeAutora = '';
-        $('#error_ime_autora').text(error_imeAutora);
-        $('#ime_autora').css('border-color', '');
+        error_naziv = '';
+        $('#error_ime_knjige').text(error_naziv);
+        $('#ime_knjige').css('border-color', '');
 
     }
     // ako se nije javila greska, tj, ako je sve u redu
-    if(error_imeAutora !== '') {
+    if(error_naziv !== '') {
         return false;
     }else {
         
@@ -138,7 +141,7 @@ $('#user_form').on('submit', function(event){
         var form_data = $(this).serialize();
         // sad ajax zahtev
         $.ajax({
-            url:"operacije.php",
+            url:"operacije_knjiga.php",
             method:"POST",
             data:form_data,
             success:function(data) {
@@ -168,12 +171,12 @@ $(document).on('click', '.edit', function() {
     var action = 'fetch_single';
     // ajax da izvuce odabranog autora
     $.ajax({
-        url:"operacije.php",
+        url:"operacije_knjiga.php",
         method:"POST",
         data:{id:id, action:action},
         dataType:"json",
         success:function(data) {
-            $('#ime_autora').val(data.ime_autora);
+            $('#ime_knjige').val(data.ime_knjige);
             $('#user_dialog').attr('title', 'Izmeni');
             $('#action').val('update');
             $('#hidden_id').val(id);
@@ -201,7 +204,7 @@ $(document).on('click', '.edit', function() {
                 var action = 'delete';
                 
                 $.ajax({
-                    url:"operacije.php",
+                    url:"operacije_knjiga.php",
                     method:"POST",
                     data:{id:id, action:action},
                     success:function(data) {
