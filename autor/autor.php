@@ -37,9 +37,11 @@ body {
 
         <h3 align="center"> Booktracker</a></h3><br />
         <h5 align="center"> ITEH prvi domaci</a></h3><br />
+        <h3 align="center"> AUTORI</a></h3><br />
         <br />
         <div align="right" style="margin-bottom:5px;">
                 <button type="button" name="add" id="add" class="btn btn-success">Dodaj Autora</button>
+                <input type="button" onclick="location.href='../knjiga/knjiga.php'" value="Vidi Knjige" class="btn btn-primary"/>
         </div>
         <div id="user_data" class="table-responsive">
 
