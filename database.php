@@ -2,7 +2,7 @@
     class Database {
         private $url = "localhost";
         private $username = "root";
-        private $password = "root";
+        private $password = "";
         private $dbname;
 
         // pomocni atributi
